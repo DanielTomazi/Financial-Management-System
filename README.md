@@ -264,4 +264,4 @@ npm run build
 - Logs estruturados com SLF4J
 - Monitoramento de saúde via Spring Actuator
 - Métricas de performance disponíveis
-- Tratamento adequado de erros e exceções
+- Tratamento adequado de excesões e erros
