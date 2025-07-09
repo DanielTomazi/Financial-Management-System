@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: financial-postgres
+    environment:
+      POSTGRES_DB: financial_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - financial-network
+
+  app:
+    build: .
+    container_name: financial-app
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/financial_management
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: mySecretKeyForJWT2024FinancialManagementSystem
+      EMAIL_USERNAME: your-email@gmail.com
+      EMAIL_PASSWORD: your-app-password
+    networks:
+      - financial-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  financial-network:
+    driver: bridge
